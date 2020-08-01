@@ -1,5 +1,4 @@
-name: Terraform Deploy
-
+name: Terraform Generate Plan
 on:
   workflow_dispatch:
     inputs:
@@ -9,8 +8,8 @@ on:
         default: latest
 
 jobs:
-  terraform_deploy:
-    name: Terraform Deploy
+  terraform_generate_plan:
+    name: Terraform Generate Plan
 
     runs-on: ubuntu-20.04
 

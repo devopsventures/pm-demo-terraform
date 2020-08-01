@@ -1,5 +1,4 @@
-name: Terraform Deploy
-
+name: Terraform Apply Plan
 on:
   workflow_dispatch:
     inputs:
@@ -8,8 +7,8 @@ on:
         required: true
 
 jobs:
-  terraform_deploy:
-    name: Terraform Deploy
+  terraform_apply_plan:
+    name: Terraform Apply Plan
 
     runs-on: ubuntu-20.04
 
@@ -24,7 +23,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.OCTODEMO_OCTODEMOBOT_TOKEN }}
-          workflow: terraform_apply.yml
+          workflow: terraform_plan.yml
           commit: ${{ github.event.inputs.commit }}
           name: plan
           path: ./
