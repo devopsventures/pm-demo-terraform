@@ -2,6 +2,10 @@ variable PROJECT {
     type    = string
 }
 
+variable VERSION {
+    type    = string
+}
+
 provider "google" {
     version             = "=3.32"
     project             = var.PROJECT
@@ -14,5 +18,5 @@ module "bookstore-gcp" {
     gcp_application_name    = "my-bookstore-app"
     gcr_hostname            = "gcr.io"
     gcr_image               = "pm-demo"
-    gcr_image_tag           = "latest"
+    gcr_image_tag           = var.VERSION
 }

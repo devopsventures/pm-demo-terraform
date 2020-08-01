@@ -18,6 +18,7 @@ jobs:
 
     env:
       TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
+      TF_VAR_VERSION: ${{ github.event.inputs.version }}
 
     steps:
       - name: Checkout

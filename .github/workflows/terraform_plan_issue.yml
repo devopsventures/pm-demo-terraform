@@ -18,6 +18,7 @@ jobs:
 
     env:
       TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
+      TF_VAR_VERSION: ${{ github.event.inputs.version }}
 
     steps:
       - name: Checkout
@@ -76,12 +77,21 @@ jobs:
             fs.writeFileSync(path.join(workspaceDir, 'actions.json'), JSON.stringify(payload, null, 2));
 
             // const planText = fs.readFileSync(path.join(workspaceDir, 'plan.txt'));
-            const planText = process.env.TERRAFORM_PLAN;
+            const planText = process.env.TERRAFORM_PLAN
+              , issueContent = [
+                `__GitHub Repo SHA:__ ${process.env.GITHUB_SHA}\n`,
+                `<details><summary>Terraform Plan for Review</summary>\n`,
+                '```\n',
+                process.env.TERRAFORM_PLAN,
+                '```\n',
+                '</details>'
+              ]
+              ;
 
             const issue = await github.issues.create({
               ...context.repo,
               title: `Terraform Plan - ${process.env.GITHUB_RUN_ID}`,
-              body: `Terraform planned changes:\n\n${planText}\n\n\n__Commit SHA:__ ${process.env.GITHUB_SHA}`,
+              body: issueContent.join('\n'),
               labels: ['terraform-plan'],
             });
 
