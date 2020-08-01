@@ -54,4 +54,6 @@ jobs:
         run: terragrunt show ./terraform_plan
 
       - name: Terraform Apply
+        env:
+          TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
         run: terragrunt apply -auto-approve -no-color ./terraform_plan
