@@ -48,7 +48,9 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -out terraform_plan -e TF_VAR_PROJECT=${{ secrets.GCP_PROJECT }}
+        env:
+          TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
+        run: terraform plan -no-color -out terraform_plan
 
         continue-on-error: false
 
