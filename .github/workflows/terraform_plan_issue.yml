@@ -79,7 +79,10 @@ jobs:
             // const planText = fs.readFileSync(path.join(workspaceDir, 'plan.txt'));
             const planText = process.env.TERRAFORM_PLAN
               , issueContent = [
-                `__GitHub Repo SHA:__ ${process.env.GITHUB_SHA}\n`,
+                `__GitHub Repo SHA:__ ${process.env.GITHUB_SHA} \`\`\`${process.env.GITHUB_SHA}\`\`\``,
+                `__GitHub Actions Run:__ \`\`\`${process.env.GITHUB_RUN_ID}\`\`\``,
+                `  https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,
+                `__Created by:__ @${process.env.GITHUB_ACTOR}\n`,
                 `<details><summary>Terraform Plan for Review</summary>\n`,
                 '```\n',
                 process.env.TERRAFORM_PLAN,
