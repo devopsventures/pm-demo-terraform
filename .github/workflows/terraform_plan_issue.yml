@@ -49,13 +49,16 @@ jobs:
         run: terragrunt validate -no-color
 
       - name: Terraform Plan
+        id: plan
         run: terragrunt plan -no-color -out terraform_plan
 
-      - name: Terraform Show
-        run: terraform show -no-color terraform_plan > plan.txt
+      # - name: Terraform Show
+      #   run: terraform show -no-color terraform_plan > plan.txt
 
       - name: Generate GitHub Actions Run Details
         uses: actions/github-script@v2
+        env:
+          TERRAFORM_PLAN: ${{ steps.plan.outputs.stdout }}
         with:
           script: |
             const path = require('path')
@@ -72,7 +75,8 @@ jobs:
             };
             fs.writeFileSync(path.join(workspaceDir, 'actions.json'), JSON.stringify(payload, null, 2));
 
-            const planText = fs.readFileSync(path.join(workspaceDir, 'plan.txt'));
+            // const planText = fs.readFileSync(path.join(workspaceDir, 'plan.txt'));
+            const planText = process.env.TERRAFORM_PLAN;
 
             const issue = await github.issues.create({
               ...context.repo,
