@@ -52,10 +52,24 @@ jobs:
           TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
         run: terraform plan -no-color -out terraform_plan
 
-        continue-on-error: false
+      - name: Generate GitHub Actions Run Details
+        uses: actions/github-script@v2
+        with:
+          script: |
+            const path = require('path')
+              , fs = require('fs')
+              ;
+
+            const payload = {
+              run_id: process.env.GITHUB_RUN_ID
+            };
+
+            fs.writeFileSync(path.join(process.env.GITHUB_WORKSPACE, 'actions.json'), JSON.stringify(payload, null, 2));
 
       - name: Save Plan
         uses: actions/upload-artifact@v2
         with:
-          name: terraform.plan
-          path: terraform_plan
+          name: plan
+          path: |
+            terraform_plan
+            actions.json
