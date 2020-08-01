@@ -1,0 +1,50 @@
+name: Terraform Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The version of the container to deploy
+        required: true
+        default: latest
+
+jobs:
+  terraform_deploy:
+    name: Terrafomr Deploy
+
+    runs-on: ubuntu-20.04
+
+    # Set a timeout on the run
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v1.0.1
+        with:
+          terraform_version: 0.12.29
+          terraform_wrapper: true
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v0.1.0
+        with:
+          terragrunt_version: 0.23.32
+
+      - name: Terraform Init
+        run: terragrunt init
+
+      - name: Terraform Validate
+        run: terragrunt validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -out terraform_plan
+        continue-on-error: false
+
+      - name: Save Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: terraform.plan
+          path: terraform_plan
