@@ -49,7 +49,7 @@ jobs:
         run: terragrunt validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -no-color -out terraform_plan
+        run: terragrunt plan -no-color -out terraform_plan
 
       - name: Generate GitHub Actions Run Details
         uses: actions/github-script@v2
