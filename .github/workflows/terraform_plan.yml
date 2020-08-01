@@ -16,6 +16,9 @@ jobs:
     # Set a timeout on the run
     timeout-minutes: 5
 
+    env:
+      TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -46,9 +49,6 @@ jobs:
         run: terragrunt validate -no-color
 
       - name: Terraform Plan
-        id: plan
-        env:
-          TF_VAR_PROJECT: ${{ secrets.GCP_PROJECT }}
         run: terraform plan -no-color -out terraform_plan
 
       - name: Generate GitHub Actions Run Details
@@ -60,7 +60,10 @@ jobs:
               ;
 
             const payload = {
-              run_id: process.env.GITHUB_RUN_ID
+              run_id: process.env.GITHUB_RUN_ID,
+              repoistory: process.env.GITHUB_REPOSITORY,
+              commit_sha: process.env.GITHUB_SHA,
+              ref: process.env.GITHUB_REF
             };
 
             fs.writeFileSync(path.join(process.env.GITHUB_WORKSPACE, 'actions.json'), JSON.stringify(payload, null, 2));
