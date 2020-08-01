@@ -1,4 +1,4 @@
-name: Terraform Apply Plan
+name: Terraform Apply Plan from Issue
 on:
   workflow_dispatch:
     inputs:
