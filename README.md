@@ -11,6 +11,10 @@ The purpose of this repository and GitHub Actions workflows is the showcase the 
 * Injecting a GCS backend into Terraform (using Terragrunt), providing the credentials at run time
 * Providing a split between Terraform `plan` and `apply` for some validation approval activities
 
+This repository is somewhat hard coded to the GCP service that it was built around and will only run there in its current form. The workflows are present from various runs/invocations and you are free to delve into these to see the outputs from these runs.
+
+__The secrets associated with the repository have been populated with dummy data, so no further invocations are currently possible.__
+
 
 ## Requirements
 
@@ -61,6 +65,4 @@ The `Terraform Apply Plan from Issue` works just like that of the `Terraform App
 __Note: In this very simple proof of concept, a plan Issue is always created, even if there are no changes to apply. You can check the output of the plan step to see if there are changes and gate the creation of the Issue ticket to only open one if there are actual changes to apply.__
 
 __Note: There are a number of improvements that couple be made here to further connect the workflows and introduce more levels of automation, like for example adding a workflow that triggers in issues comments to apply the plan (validating the user has the correct privileges to approve by checking membership in a team for instance).__
-
-
 
