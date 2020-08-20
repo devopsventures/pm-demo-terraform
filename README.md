@@ -66,3 +66,6 @@ __Note: In this very simple proof of concept, a plan Issue is always created, ev
 
 __Note: There are a number of improvements that couple be made here to further connect the workflows and introduce more levels of automation, like for example adding a workflow that triggers in issues comments to apply the plan (validating the user has the correct privileges to approve by checking membership in a team for instance).__
 
+Overview of the workflows using the issue to deploy to GCP Cloud Run
+![GitHubActions_Terraform_to_GCP_Cloud_Run.png](GitHubActions_Terraform_to_GCP_Cloud_Run.png)
+
